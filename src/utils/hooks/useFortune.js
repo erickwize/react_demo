@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { random } from '../fns';
+import { random } from '../fns.ts';
 
 const API_URL = 'http://fortunecookieapi.herokuapp.com/v1/fortunes?limit=10';
 

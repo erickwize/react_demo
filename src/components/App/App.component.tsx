@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import AuthProvider from '../../providers/Auth';
+import AppProvider from '../../providers/App';
+import YoutubeProvider from '../../providers/YoutubeProvider';
 import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
@@ -17,24 +19,28 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Drawer isOpen={isOpen} setOpen={setOpen} />
-        <NavBar setOpen={setOpen} />
-        <Content>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <Private exact path="/secret">
-              <SecretPage />
-            </Private>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </Content>
+        <AppProvider>
+          <YoutubeProvider>
+            <Drawer isOpen={isOpen} setOpen={setOpen} />
+            <NavBar setOpen={setOpen} />
+            <Content>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route exact path="/login">
+                  <LoginPage />
+                </Route>
+                <Private exact path="/secret">
+                  <SecretPage />
+                </Private>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            </Content>
+          </YoutubeProvider>
+        </AppProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -7,8 +7,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
-import { DrawerList } from './Drawer.styles';
-import { IProps } from './Drawer.typed';
+import { DrawerList } from './Drawer.component.styles';
+import { IProps } from './Drawer.component.typed';
 
 function Drawer({ isOpen, setOpen }: IProps) {
   const toggleDrawer = (open: boolean) => (

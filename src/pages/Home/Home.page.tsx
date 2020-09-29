@@ -1,9 +1,10 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 
 // import { useAuth } from '../../providers/Auth';
 // import './Home.styles.css';
+import { Grid } from '@material-ui/core';
 import CardVideo from '../../components/CardVideo';
+import { useApp } from '../../providers/App';
 
 function HomePage() {
   // const history = useHistory();
@@ -16,16 +17,22 @@ function HomePage() {
   //   history.push('/');
   // }
 
+  const { videos } = useApp();
+
   return (
-    <Grid container spacing={3} alignItems="center">
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-      <CardVideo imageSrc="https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg" />
-    </Grid>
+    <>
+      <Grid container>
+        {videos.length > 0 &&
+          videos.map((video) => (
+            <CardVideo
+              key={video.id.videoId}
+              imageSrc={video.snippet.thumbnails.high.url}
+              title={video.snippet.title}
+              description={video.snippet.description}
+            />
+          ))}
+      </Grid>
+    </>
   );
 }
 
