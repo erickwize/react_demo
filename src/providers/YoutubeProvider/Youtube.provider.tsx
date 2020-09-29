@@ -23,7 +23,7 @@ function YoutubeProvider({ children }: any) {
     const { gapi } = window as any;
     async function start() {
       await gapi.client.init({
-        apiKey: 'AIzaSyDpmXMWH82UCesw-s-oI1POvLUbn8xTVSk',
+        apiKey: '',
       });
       setAuthenticated(true);
     }
