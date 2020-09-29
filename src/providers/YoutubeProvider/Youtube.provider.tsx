@@ -23,7 +23,7 @@ function YoutubeProvider({ children }: any) {
     const { gapi } = window as any;
     async function start() {
       await gapi.client.init({
-        apiKey: '',
+        apiKey: process.env.REACT_APP_API_CLIENT_KEY,
       });
       setAuthenticated(true);
     }
