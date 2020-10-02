@@ -8,7 +8,7 @@ function LoginPage() {
   const { login } = useAuth();
   const history = useHistory();
 
-  function authenticate(event) {
+  function authenticate(event: React.FormEvent) {
     event.preventDefault();
     login();
     history.push('/secret');

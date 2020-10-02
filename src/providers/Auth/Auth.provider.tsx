@@ -3,7 +3,13 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { AUTH_STORAGE_KEY } from '../../utils/constants';
 import { storage } from '../../utils/storage';
 
-const AuthContext = React.createContext(null);
+import { Context, IProps } from './Auth.provider.typed';
+
+const AuthContext = React.createContext<Context>({
+  login: () => { },
+  logout: () => { },
+  authenticated: false,
+});
 
 function useAuth() {
   const context = useContext(AuthContext);
@@ -13,7 +19,7 @@ function useAuth() {
   return context;
 }
 
-function AuthProvider({ children }) {
+function AuthProvider({ children }: IProps) {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
