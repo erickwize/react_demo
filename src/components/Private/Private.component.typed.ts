@@ -1,4 +1,5 @@
-export interface IProps {
-  children: any;
-  rest: any;
+import { RouteProps } from 'react-router';
+
+export interface IProps extends RouteProps {
+  children: React.ReactNode;
 }
