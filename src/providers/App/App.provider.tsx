@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState } from 'react';
 import { VideoItem } from '../../utils/types';
 
-import { Context } from './App.provider.typed';
+import { Context, IProps } from './App.provider.typed';
 
 const AppContext = createContext<Context>({
-  setSearch: (f: any) => f,
+  setSearch: (search) => console.log(search),
   search: '',
-  setVideos: (f: any) => f,
+  setVideos: (videos) => videos.forEach((video) => console.log(video)),
   videos: [],
 });
 
@@ -20,7 +20,7 @@ function useApp() {
   return context;
 }
 
-function AppProvider({ children }: any) {
+function AppProvider({ children }: IProps) {
   const [search, setSearch] = useState<string>('');
   const [videos, setVideos] = useState<Array<VideoItem>>([]);
 

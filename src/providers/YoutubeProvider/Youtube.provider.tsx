@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { Context } from './Youtube.provider.typed';
+import { Context, IProps } from './Youtube.provider.typed';
 
 const YoutubeContext = createContext<Context>({
   isAuthenticated: false,
@@ -16,7 +16,7 @@ function useYoutubeApi() {
   return context;
 }
 
-function YoutubeProvider({ children }: any) {
+function YoutubeProvider({ children }: IProps) {
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {

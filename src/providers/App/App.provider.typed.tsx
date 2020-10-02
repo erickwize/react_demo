@@ -1,8 +1,8 @@
 import { VideoItem } from '../../utils/types';
 
 export interface Context {
-  setSearch: Function;
+  setSearch: (search: string) => void;
   search: string;
-  setVideos: Function;
+  setVideos: (videos: VideoItem[]) => void;
   videos: VideoItem[];
 }
