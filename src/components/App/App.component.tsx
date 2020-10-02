@@ -14,15 +14,15 @@ import Drawer from '../Drawer';
 import { Content } from './App.styled';
 
 function App() {
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <BrowserRouter>
       <AuthProvider>
         <AppProvider>
           <YoutubeProvider>
-            <Drawer isOpen={isOpen} setOpen={setOpen} />
-            <NavBar setOpen={setOpen} />
+            <Drawer isOpen={isOpen} setOpen={setIsOpen} />
+            <NavBar setOpen={setIsOpen} />
             <Content>
               <Switch>
                 <Route exact path="/">
