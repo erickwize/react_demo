@@ -1,15 +1,16 @@
 const storage = {
-  get(key) {
+  get(key: string) {
     try {
       const rawValue = window.localStorage.getItem(key);
-      return JSON.parse(rawValue);
+      if (rawValue) return JSON.parse(rawValue);
+      return null;
     } catch (error) {
       console.error(`Error parsing storage item "${key}".`);
       return null;
     }
   },
 
-  set(key, value) {
+  set(key: string, value: JSON | boolean) {
     window.localStorage.setItem(key, JSON.stringify(value));
   },
 };
