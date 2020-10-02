@@ -8,7 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import { IProps } from './NavBar.component.typed';
 import { SearchWrapper, SearchIconWrapper, SearchInput } from './Navbar.component.styles';
-import { fetchVideos } from '../../utils/fns';
+import { fetchVideos } from '../../utils/functions';
 import { useApp } from '../../providers/App';
 import { useYoutubeApi } from '../../providers/YoutubeProvider';
 
