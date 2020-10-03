@@ -28,6 +28,11 @@ const fetchVideos = debounce(
   (search: string, setVideos: (videos: VideoItem[]) => void) => {
     const { gapi } = window as any;
 
+    if (gapi.client === undefined) {
+      setVideos([]);
+      return;
+    }
+
     gapi.client
       .request({
         path: `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${search}`,
@@ -44,4 +49,17 @@ const fetchVideos = debounce(
   500
 );
 
-export { random, debounce, fetchVideos, filterVideos };
+const fetchRelatedVideos = async (videoId: string) => {
+  const { gapi } = window as any;
+  try {
+    const { result }: YoutubeResponse = await gapi.client.request({
+      path: `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=${videoId}&type=video`,
+    });
+    return result.items;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+};
+
+export { random, debounce, fetchVideos, filterVideos, fetchRelatedVideos };
