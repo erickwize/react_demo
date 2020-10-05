@@ -12,6 +12,7 @@ import SecretPage from '../../pages/Secret';
 import Private from '../Private';
 import NavBar from '../NavBar';
 import Drawer from '../Drawer';
+import Favorites from '../../pages/Favorites';
 
 function App() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -26,6 +27,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <HomePage />
+              </Route>
+              <Route exact path="/favorites">
+                <Favorites />
               </Route>
               <Route exact path="/login">
                 <LoginPage />
