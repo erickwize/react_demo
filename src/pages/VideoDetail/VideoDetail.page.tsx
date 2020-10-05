@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import MiniVideo from '../../components/MiniVideo';
 import { useYoutubeApi } from '../../providers/YoutubeProvider';
-import { fetchRelatedVideos } from '../../utils/functions';
+import {
+  fetchRelatedVideos,
+  fetchVideoInfo,
+  truncateString,
+} from '../../utils/functions';
 import { VideoItem } from '../../utils/types';
 import {
   VideoReproductor,
@@ -12,24 +16,26 @@ import {
 } from './VideoDetail.page.styled';
 import { ParamTypes } from './VideoDetail.page.typed';
 
-const mockedImg =
-  'https://i.ytimg.com/vi/MhTDp5FwfmM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBinI77q8Iu3Be6GLTkWEZ7LfoHlg';
-
 function VideoDetail() {
   const { isAuthenticated } = useYoutubeApi();
   const { videoId } = useParams<ParamTypes>();
   const [relatedVideos, setRelatedVideos] = useState<Array<VideoItem>>([]);
+  const [title, setTitle] = useState<string>('Loading...');
+  const [description, setDescription] = useState<string>('Loading...');
 
   useEffect(() => {
-    const getRelatedVideos = async () => {
-      const videos = await fetchRelatedVideos(videoId);
-      console.log(videos);
-      setRelatedVideos(videos);
+    const getInfoAPI = async () => {
+      const fetchedRelatedVideos = await fetchRelatedVideos(videoId);
+      const videoInfo = await fetchVideoInfo(videoId);
+      setRelatedVideos(fetchedRelatedVideos);
+      if (videoInfo !== undefined) {
+        setTitle(videoInfo.snippet.title);
+        setDescription(truncateString(videoInfo.snippet.description, 200));
+      }
     };
-    console.log('isAuthenticated: ', isAuthenticated);
 
     if (isAuthenticated) {
-      // getRelatedVideos();
+      getInfoAPI();
     }
   }, [videoId, setRelatedVideos, isAuthenticated]);
 
@@ -53,13 +59,8 @@ function VideoDetail() {
             />
           </div>
           <VideoDetails>
-            <span>Entreprenuer</span>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit nihil nam
-              nesciunt? Iusto corporis nihil odio deleniti temporibus maiores, minus
-              aliquid nulla accusantium provident esse nostrum natus odit doloribus!
-              Voluptatibus.
-            </p>
+            <span>{title}</span>
+            <p>{description}</p>
           </VideoDetails>
         </div>
         <RelatedVideosSection>
@@ -74,16 +75,6 @@ function VideoDetail() {
                 />
               );
             })}
-          {/* <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} />
-          <MiniVideo title="Entreprenuer" imageSrc={mockedImg} /> */}
         </RelatedVideosSection>
       </div>
     </div>

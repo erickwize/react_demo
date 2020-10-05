@@ -6,6 +6,9 @@ import { Grid } from '@material-ui/core';
 import CardVideo from '../../components/CardVideo';
 import { useApp } from '../../providers/App';
 
+const mockedImage = process.env.NODE_ENV;
+console.log(mockedImage);
+
 function HomePage() {
   // const history = useHistory();
   // const sectionRef = useRef(null);

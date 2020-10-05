@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import InputBase from '@material-ui/core/InputBase';
+import Typography from '@material-ui/core/Typography';
 
 export const SearchWrapper = styled.div`
   width: 100%;
@@ -46,4 +47,8 @@ export const SearchInput = styled(InputBase)`
       width: 20ch;
     }
   }
+`;
+
+export const Title = styled(Typography)`
+  cursor: pointer;
 `;

@@ -1,3 +1,8 @@
+import {
+  mockedHomeVideos,
+  mockedRelatedVideos,
+  mockedVideoDetailInfo,
+} from './mockedData';
 import { VideoItem, YoutubeResponse } from './types';
 
 function random(limit: number) {
@@ -28,6 +33,13 @@ const fetchVideos = debounce(
   (search: string, setVideos: (videos: VideoItem[]) => void) => {
     const { gapi } = window as any;
 
+    if (process.env.NODE_ENV === 'development') {
+      setTimeout(() => {
+        setVideos(mockedHomeVideos);
+      }, 1000);
+      return;
+    }
+
     if (gapi.client === undefined) {
       setVideos([]);
       return;
@@ -39,6 +51,7 @@ const fetchVideos = debounce(
       })
       .then(
         (response: YoutubeResponse) => {
+          console.log(response.result.items);
           setVideos(filterVideos(response.result.items));
         },
         (reason: any) => {
@@ -52,6 +65,10 @@ const fetchVideos = debounce(
 const fetchRelatedVideos = async (videoId: string) => {
   const { gapi } = window as any;
   try {
+    if (process.env.NODE_ENV === 'development') {
+      return mockedRelatedVideos;
+    }
+
     const { result }: YoutubeResponse = await gapi.client.request({
       path: `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=${videoId}&type=video`,
     });
@@ -62,4 +79,31 @@ const fetchRelatedVideos = async (videoId: string) => {
   }
 };
 
-export { random, debounce, fetchVideos, filterVideos, fetchRelatedVideos };
+const fetchVideoInfo = async (videoId: string) => {
+  const { gapi } = window as any;
+  try {
+    if (process.env.NODE_ENV === 'development') {
+      return mockedVideoDetailInfo;
+    }
+
+    const { result }: YoutubeResponse = await gapi.client.request({
+      path: `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}`,
+    });
+    return result.items[0];
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
+
+const truncateString = (str: string, length: number) => `${str.substr(0, length)}...`;
+
+export {
+  random,
+  debounce,
+  fetchVideos,
+  filterVideos,
+  fetchRelatedVideos,
+  fetchVideoInfo,
+  truncateString,
+};

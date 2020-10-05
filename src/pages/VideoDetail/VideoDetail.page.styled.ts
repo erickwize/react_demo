@@ -9,7 +9,8 @@ export const VideoReproductor = styled.iframe`
 `;
 
 export const RelatedVideosSection = styled.div`
-  width: 60%;
+  min-width: 40%;
+  max-width: 40%;
   height: 100%;
   border-left: 1px solid black;
   overflow-y: scroll;
