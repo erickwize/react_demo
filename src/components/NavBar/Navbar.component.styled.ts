@@ -52,3 +52,9 @@ export const SearchInput = styled(InputBase)`
 export const Title = styled(Typography)`
   cursor: pointer;
 `;
+
+export const AccountImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`;

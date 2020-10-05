@@ -8,10 +8,10 @@ import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import VideoDetailPage from '../../pages/VideoDetail';
 import NotFound from '../../pages/NotFound';
-import SecretPage from '../../pages/Secret';
 import Private from '../Private';
 import NavBar from '../NavBar';
 import Drawer from '../Drawer';
+import Login from '../Login';
 import Favorites from '../../pages/Favorites';
 
 function App() {
@@ -24,22 +24,20 @@ function App() {
           <YoutubeProvider>
             <Drawer isOpen={isOpen} setOpen={setIsOpen} />
             <NavBar setOpen={setIsOpen} />
+            <Login />
             <Switch>
               <Route exact path="/">
                 <HomePage />
               </Route>
-              <Route exact path="/favorites">
+              <Private exact path="/favorites">
                 <Favorites />
-              </Route>
+              </Private>
               <Route exact path="/login">
                 <LoginPage />
               </Route>
               <Route path="/video/:videoId">
                 <VideoDetailPage />
               </Route>
-              <Private exact path="/secret">
-                <SecretPage />
-              </Private>
               <Route path="*">
                 <NotFound />
               </Route>

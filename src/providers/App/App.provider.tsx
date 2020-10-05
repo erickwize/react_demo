@@ -12,6 +12,8 @@ const AppContext = createContext<Context>({
   saveFavorite: (video) => console.log(video),
   favoriteVideos: [],
   removeFavorite: (videoId) => console.log(videoId),
+  openLogin: false,
+  setOpenLogin: (open) => console.log(open),
 });
 
 function useApp() {
@@ -30,6 +32,7 @@ function AppProvider({ children }: IProps) {
   const [favoriteVideos, setFavoriteVideos] = useState<Array<Video>>(
     storage.getVideosWithString(search)
   );
+  const [openLogin, setOpenLogin] = useState<boolean>(false);
 
   return (
     <AppContext.Provider
@@ -53,6 +56,8 @@ function AppProvider({ children }: IProps) {
           const favoriteSavedVideos = storage.getVideosWithString(search);
           setFavoriteVideos(favoriteSavedVideos);
         },
+        openLogin,
+        setOpenLogin,
       }}
     >
       {children}

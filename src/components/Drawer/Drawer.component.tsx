@@ -10,10 +10,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { DrawerList } from './Drawer.component.styled';
 import { IProps } from './Drawer.component.typed';
+import { useAuth } from '../../providers/Auth';
 
 function Drawer({ isOpen, setOpen }: IProps) {
   const history = useHistory();
   const location = useLocation();
+  const { authenticated } = useAuth();
 
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
@@ -46,16 +48,18 @@ function Drawer({ isOpen, setOpen }: IProps) {
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem
-            button
-            selected={location.pathname === '/favorites'}
-            onClick={() => history.push('/favorites')}
-          >
-            <ListItemIcon>
-              <FavoriteIcon />
-            </ListItemIcon>
-            <ListItemText primary="Favorites" />
-          </ListItem>
+          {authenticated && (
+            <ListItem
+              button
+              selected={location.pathname === '/favorites'}
+              onClick={() => history.push('/favorites')}
+            >
+              <ListItemIcon>
+                <FavoriteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Favorites" />
+            </ListItem>
+          )}
         </List>
       </DrawerList>
     </BaseDrawer>

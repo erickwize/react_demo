@@ -12,4 +12,6 @@ export interface Context {
   favoriteVideos: Video[];
   saveFavorite: (video: Video) => void;
   removeFavorite: (video: string) => void;
+  openLogin: boolean;
+  setOpenLogin: (open: boolean) => void;
 }

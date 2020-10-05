@@ -13,34 +13,47 @@ import image from '../../resources/image.jpg';
 import { Card } from './CardVideo.styled';
 import { IProps } from './CardVideo.typed';
 import { useApp } from '../../providers/App';
+import { useAuth } from '../../providers/Auth';
 
 function CardVideo({ imageSrc, title, description, id, favorited = false }: IProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(favorited);
+  const { authenticated } = useAuth();
   const { saveFavorite, removeFavorite } = useApp();
   const history = useHistory();
+
+  const favoriteIconRender = () => {
+    if (authenticated) {
+      if (isFavorite) {
+        return (
+          <FavoritedIcon
+            onClick={(evt) => {
+              evt.stopPropagation();
+              setIsFavorite(false);
+              removeFavorite(id);
+            }}
+          />
+        );
+      }
+      return (
+        <FavoriteIcon
+          onClick={(evt) => {
+            evt.stopPropagation();
+            setIsFavorite(true);
+            saveFavorite({ title, description, id, imgSrc: imageSrc });
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <Card
       onClick={() => {
         history.push(`/video/${id}`);
       }}
     >
-      {isFavorite ? (
-        <FavoritedIcon
-          onClick={(evt) => {
-            evt.stopPropagation();
-            setIsFavorite(false);
-            removeFavorite(id);
-          }}
-        />
-      ) : (
-          <FavoriteIcon
-            onClick={(evt) => {
-              evt.stopPropagation();
-              setIsFavorite(true);
-              saveFavorite({ title, description, id, imgSrc: imageSrc });
-            }}
-          />
-        )}
+      {favoriteIconRender()}
       <CardActionArea>
         <CardMedia image={imageSrc || image} component="img" />
         <CardContent>
