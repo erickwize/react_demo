@@ -6,11 +6,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import { DrawerList } from './Drawer.component.styles';
+import { DrawerList } from './Drawer.component.styled';
 import { IProps } from './Drawer.component.typed';
 
 function Drawer({ isOpen, setOpen }: IProps) {
+  const history = useHistory();
+  const location = useLocation();
+
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -32,13 +36,21 @@ function Drawer({ isOpen, setOpen }: IProps) {
         onKeyDown={toggleDrawer(false)}
       >
         <List>
-          <ListItem button selected>
+          <ListItem
+            button
+            selected={location.pathname === '/'}
+            onClick={() => history.push('/')}
+          >
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            selected={location.pathname === '/favorites'}
+            onClick={() => history.push('/favorites')}
+          >
             <ListItemIcon>
               <FavoriteIcon />
             </ListItemIcon>
