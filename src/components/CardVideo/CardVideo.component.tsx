@@ -19,38 +19,36 @@ function CardVideo({ imageSrc, title, description, id, favorited = false }: IPro
   const { saveFavorite, removeFavorite } = useApp();
   const history = useHistory();
   return (
-    <Grid item xs={4}>
-      <Card
-        onClick={() => {
-          history.push(`/video/${id}`);
-        }}
-      >
-        {isFavorite ? (
-          <FavoritedIcon
+    <Card
+      onClick={() => {
+        history.push(`/video/${id}`);
+      }}
+    >
+      {isFavorite ? (
+        <FavoritedIcon
+          onClick={(evt) => {
+            evt.stopPropagation();
+            setIsFavorite(false);
+            removeFavorite(id);
+          }}
+        />
+      ) : (
+          <FavoriteIcon
             onClick={(evt) => {
               evt.stopPropagation();
-              setIsFavorite(false);
-              removeFavorite(id);
+              setIsFavorite(true);
+              saveFavorite({ title, description, id, imgSrc: imageSrc });
             }}
           />
-        ) : (
-            <FavoriteIcon
-              onClick={(evt) => {
-                evt.stopPropagation();
-                setIsFavorite(true);
-                saveFavorite({ title, description, id, imgSrc: imageSrc });
-              }}
-            />
-          )}
-        <CardActionArea>
-          <CardMedia image={imageSrc || image} component="img" />
-          <CardContent>
-            <Typography>{title}</Typography>
-            <Typography>{description}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
+        )}
+      <CardActionArea>
+        <CardMedia image={imageSrc || image} component="img" />
+        <CardContent>
+          <Typography>{title}</Typography>
+          <Typography>{description}</Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 }
 
