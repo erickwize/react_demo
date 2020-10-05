@@ -5,7 +5,9 @@ import CardVideo from '../../components/CardVideo';
 import { useApp } from '../../providers/App';
 
 function HomePage() {
-  const { videos } = useApp();
+  const { videos, favoriteVideos } = useApp();
+
+  const favoriteVideoIds = favoriteVideos.map((video) => video.id);
 
   return (
     <>
@@ -18,6 +20,7 @@ function HomePage() {
               title={video.snippet.title}
               description={video.snippet.description}
               id={video.id.videoId}
+              favorited={favoriteVideoIds.includes(video.id.videoId)}
             />
           ))}
       </Grid>
