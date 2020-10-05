@@ -3,4 +3,5 @@ export interface IProps {
   title: string;
   description: string;
   id: string;
+  favorited?: boolean;
 }

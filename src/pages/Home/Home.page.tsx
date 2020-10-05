@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import CardVideo from '../../components/CardVideo';
 import { useApp } from '../../providers/App';
-
-const mockedImage = process.env.NODE_ENV;
-console.log(mockedImage);
 
 function HomePage() {
   const { videos } = useApp();

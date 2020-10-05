@@ -11,10 +11,11 @@ import image from '../../resources/image.jpg';
 
 import { Card } from './CardVideo.styled';
 import { IProps } from './CardVideo.typed';
-import { storage } from '../../utils/storage';
+import { useApp } from '../../providers/App';
 
-function CardVideo({ imageSrc, title, description, id }: IProps) {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+function CardVideo({ imageSrc, title, description, id, favorited = false }: IProps) {
+  const [isFavorite, setIsFavorite] = useState<boolean>(favorited);
+  const { saveFavorite, removeFavorite } = useApp();
   return (
     <Grid item xs={4}>
       <Card>
@@ -22,14 +23,14 @@ function CardVideo({ imageSrc, title, description, id }: IProps) {
           <FavoritedIcon
             onClick={() => {
               setIsFavorite(false);
-              storage.removeVideo(id);
+              removeFavorite(id);
             }}
           />
         ) : (
             <FavoriteIcon
               onClick={() => {
                 setIsFavorite(true);
-                storage.saveVideo({ title, description, id, imgSrc: imageSrc });
+                saveFavorite({ title, description, id, imgSrc: imageSrc });
               }}
             />
           )}

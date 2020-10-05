@@ -48,3 +48,10 @@ export interface Result {
 export interface YoutubeResponse {
   result: Result;
 }
+
+export interface Video {
+  title: string;
+  id: string;
+  imgSrc: string;
+  description: string;
+}

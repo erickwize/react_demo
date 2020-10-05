@@ -1,17 +1,11 @@
 import { FAVORITES } from './constants';
-import { VideoItem } from './types';
-
-interface Video {
-  title: string;
-  id: string;
-  imgSrc: string;
-  description: string;
-}
+import { Video } from './types';
 
 interface Storage {
   get: (key: string) => Object | null;
   set: (key: string, value: Object | boolean) => void;
   getVideos: () => Video[];
+  getVideosWithString: (str: string) => Video[];
   saveVideo: (video: Video) => void;
   removeVideo: (videoId: string) => void;
 }
@@ -30,6 +24,12 @@ const storage: Storage = {
 
   set(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value));
+  },
+
+  getVideosWithString(str) {
+    const normalizedStr = str.toLowerCase().replace(/\s/g, '');
+    const videos: Video[] = this.getVideos();
+    return videos.filter((video) => video.title.toLowerCase().includes(normalizedStr));
   },
 
   getVideos() {

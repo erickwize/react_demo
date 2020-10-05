@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,12 +16,38 @@ import {
 import { fetchVideos } from '../../utils/functions';
 import { useApp } from '../../providers/App';
 import { useYoutubeApi } from '../../providers/YoutubeProvider';
+import { FAVORITES_URL, HOME_URL } from '../../utils/constants';
 
 function NavBar({ setOpen }: IProps) {
   const { search, setSearch, setVideos } = useApp();
   const { isAuthenticated } = useYoutubeApi();
   const history = useHistory();
   const location = useLocation();
+
+  const handleChange = (pathname: string) => {
+    if (pathname === HOME_URL) {
+      return async (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const {
+          target: { value },
+        } = evt;
+        setSearch(value);
+        if (isAuthenticated) {
+          fetchVideos(value, setVideos);
+        }
+      };
+    }
+    if (pathname === FAVORITES_URL) {
+      return (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const {
+          target: { value },
+        } = evt;
+        setSearch(value);
+      };
+    }
+    return (evt: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(evt);
+    };
+  };
 
   useEffect(() => {
     fetchVideos('', setVideos);
@@ -38,10 +64,10 @@ function NavBar({ setOpen }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Title variant="h6" onClick={() => history.push('/')}>
+        <Title variant="h6" onClick={() => history.push(HOME_URL)}>
           Awesome Video Player
         </Title>
-        {location.pathname === '/' && (
+        {location.pathname.includes('/video') === false && (
           <SearchWrapper>
             <SearchIconWrapper>
               <SearchIcon />
@@ -50,15 +76,7 @@ function NavBar({ setOpen }: IProps) {
               placeholder="Search videos..."
               inputProps={{ 'aria-label': 'search' }}
               value={search}
-              onChange={async (evt) => {
-                const {
-                  target: { value },
-                } = evt;
-                setSearch(value);
-                if (isAuthenticated) {
-                  fetchVideos(value, setVideos);
-                }
-              }}
+              onChange={handleChange(location.pathname)}
             />
           </SearchWrapper>
         )}

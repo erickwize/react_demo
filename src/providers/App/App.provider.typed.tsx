@@ -1,4 +1,4 @@
-import { VideoItem } from '../../utils/types';
+import { VideoItem, Video } from '../../utils/types';
 
 export interface IProps {
   children: React.ReactNode;
@@ -9,4 +9,7 @@ export interface Context {
   search: string;
   setVideos: (videos: VideoItem[]) => void;
   videos: VideoItem[];
+  favoriteVideos: Video[];
+  saveFavorite: (video: Video) => void;
+  removeFavorite: (video: string) => void;
 }
