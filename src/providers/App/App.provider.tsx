@@ -14,6 +14,10 @@ const AppContext = createContext<Context>({
   removeFavorite: (videoId) => console.log(videoId),
   openLogin: false,
   setOpenLogin: (open) => console.log(open),
+  isLoadingVideos: false,
+  setIsLoadingVideos: (loading) => console.log(loading),
+  isLoadingRelatedVideos: false,
+  setIsLoadingRelatedVideos: (loading) => console.log(loading),
 });
 
 function useApp() {
@@ -33,6 +37,8 @@ function AppProvider({ children }: IProps) {
     storage.getVideosWithString(search)
   );
   const [openLogin, setOpenLogin] = useState<boolean>(false);
+  const [isLoadingVideos, setIsLoadingVideos] = useState<boolean>(false);
+  const [isLoadingRelatedVideos, setIsLoadingRelatedVideos] = useState<boolean>(false);
 
   return (
     <AppContext.Provider
@@ -58,6 +64,10 @@ function AppProvider({ children }: IProps) {
         },
         openLogin,
         setOpenLogin,
+        isLoadingVideos,
+        setIsLoadingVideos,
+        isLoadingRelatedVideos,
+        setIsLoadingRelatedVideos,
       }}
     >
       {children}

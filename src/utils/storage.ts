@@ -38,6 +38,10 @@ const storage: Storage = {
 
   saveVideo(video: Video) {
     const videos: Video[] = this.getVideos();
+    const isVideoSaved = videos.some((savedVideo) => savedVideo.id === video.id);
+    if (isVideoSaved) {
+      return;
+    }
     videos.push(video);
     this.set(FAVORITES, videos);
   },

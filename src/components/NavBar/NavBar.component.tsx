@@ -26,7 +26,7 @@ import { useAuth } from '../../providers/Auth';
 import user from '../../resources/mock_user.jpg';
 
 function NavBar({ setOpen }: IProps) {
-  const { search, setSearch, setVideos, setOpenLogin } = useApp();
+  const { search, setSearch, setVideos, setOpenLogin, setIsLoadingVideos } = useApp();
   const { isAuthenticated } = useYoutubeApi();
   const { authenticated, logout } = useAuth();
   const history = useHistory();
@@ -41,7 +41,7 @@ function NavBar({ setOpen }: IProps) {
         } = evt;
         setSearch(value);
         if (isAuthenticated) {
-          fetchVideos(value, setVideos);
+          fetchVideos(value, setVideos, setIsLoadingVideos);
         }
       };
     }
@@ -74,8 +74,8 @@ function NavBar({ setOpen }: IProps) {
   };
 
   useEffect(() => {
-    fetchVideos('', setVideos);
-  }, [isAuthenticated, setVideos]);
+    fetchVideos('', setVideos, setIsLoadingVideos);
+  }, [isAuthenticated, setVideos, setIsLoadingVideos]);
 
   return (
     <AppBar position="sticky">

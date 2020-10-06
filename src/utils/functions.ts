@@ -30,18 +30,25 @@ function filterVideos(videos: VideoItem[]) {
 }
 
 const fetchVideos = debounce(
-  (search: string, setVideos: (videos: VideoItem[]) => void) => {
+  (
+    search: string,
+    setVideos: (videos: VideoItem[]) => void,
+    setIsLoading: (loading: boolean) => void
+  ) => {
     const { gapi } = window as any;
+    setIsLoading(true);
 
     if (process.env.NODE_ENV === 'development') {
       setTimeout(() => {
         setVideos(mockedHomeVideos);
+        setIsLoading(false);
       }, 1000);
       return;
     }
 
     if (gapi.client === undefined) {
       setVideos([]);
+      setIsLoading(false);
       return;
     }
 
@@ -51,8 +58,8 @@ const fetchVideos = debounce(
       })
       .then(
         (response: YoutubeResponse) => {
-          console.log(response.result.items);
           setVideos(filterVideos(response.result.items));
+          setIsLoading(false);
         },
         (reason: any) => {
           console.error(`Error: ${reason}`);
@@ -66,7 +73,12 @@ const fetchRelatedVideos = async (videoId: string) => {
   const { gapi } = window as any;
   try {
     if (process.env.NODE_ENV === 'development') {
-      return mockedRelatedVideos;
+      const results = await new Promise<VideoItem[]>((resolve) => {
+        setTimeout(() => {
+          resolve(mockedRelatedVideos);
+        }, 4000);
+      });
+      return results;
     }
 
     const { result }: YoutubeResponse = await gapi.client.request({

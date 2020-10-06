@@ -14,4 +14,8 @@ export interface Context {
   removeFavorite: (video: string) => void;
   openLogin: boolean;
   setOpenLogin: (open: boolean) => void;
+  isLoadingVideos: boolean;
+  setIsLoadingVideos: (loading: boolean) => void;
+  isLoadingRelatedVideos: boolean;
+  setIsLoadingRelatedVideos: (loading: boolean) => void;
 }

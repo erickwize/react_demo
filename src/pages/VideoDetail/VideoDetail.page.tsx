@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import MiniVideo from '../../components/MiniVideo';
+import {
+  MiniVideoWrapper,
+  SkeletonImage,
+  SkeletonSpan,
+} from '../../components/MiniVideo/MiniVideo.component.styled';
+import { useApp } from '../../providers/App';
 import { useYoutubeApi } from '../../providers/YoutubeProvider';
 import {
   fetchRelatedVideos,
@@ -18,6 +24,7 @@ import { ParamTypes } from './VideoDetail.page.typed';
 
 function VideoDetail() {
   const { isAuthenticated } = useYoutubeApi();
+  const { isLoadingRelatedVideos, setIsLoadingRelatedVideos } = useApp();
   const { videoId } = useParams<ParamTypes>();
   const [relatedVideos, setRelatedVideos] = useState<Array<VideoItem>>([]);
   const [title, setTitle] = useState<string>('Loading...');
@@ -25,7 +32,9 @@ function VideoDetail() {
 
   useEffect(() => {
     const getInfoAPI = async () => {
+      setIsLoadingRelatedVideos(true);
       const fetchedRelatedVideos = await fetchRelatedVideos(videoId);
+      setIsLoadingRelatedVideos(false);
       const videoInfo = await fetchVideoInfo(videoId);
       setRelatedVideos(fetchedRelatedVideos);
       if (videoInfo !== undefined) {
@@ -37,7 +46,33 @@ function VideoDetail() {
     if (isAuthenticated) {
       getInfoAPI();
     }
-  }, [videoId, setRelatedVideos, isAuthenticated]);
+  }, [videoId, setRelatedVideos, isAuthenticated, setIsLoadingRelatedVideos]);
+
+  const renderRelatedVideos = () => {
+    if (isLoadingRelatedVideos) {
+      return Array(25)
+        .fill(0)
+        .map(() => (
+          <MiniVideoWrapper>
+            <SkeletonImage />
+            <SkeletonSpan />
+          </MiniVideoWrapper>
+        ));
+    }
+    if (relatedVideos.length > 0) {
+      return relatedVideos.map((video) => {
+        return (
+          <MiniVideo
+            title={video.snippet.title}
+            imageSrc={video.snippet.thumbnails.high.url}
+            videoId={video.id.videoId}
+            key={video.id.videoId}
+          />
+        );
+      });
+    }
+    return null;
+  };
 
   return (
     <div
@@ -63,19 +98,7 @@ function VideoDetail() {
             <p>{description}</p>
           </VideoDetails>
         </div>
-        <RelatedVideosSection>
-          {relatedVideos.length > 0 &&
-            relatedVideos.map((video) => {
-              return (
-                <MiniVideo
-                  title={video.snippet.title}
-                  imageSrc={video.snippet.thumbnails.high.url}
-                  videoId={video.id.videoId}
-                  key={video.id.videoId}
-                />
-              );
-            })}
-        </RelatedVideosSection>
+        <RelatedVideosSection>{renderRelatedVideos()}</RelatedVideosSection>
       </div>
     </div>
   );
