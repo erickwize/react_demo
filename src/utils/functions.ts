@@ -25,10 +25,6 @@ function debounce(func: Function, wait: number) {
   };
 }
 
-function filterVideos(videos: VideoItem[]) {
-  return videos.filter((video) => video.snippet);
-}
-
 const fetchVideos = debounce(
   (
     search: string,
@@ -58,7 +54,7 @@ const fetchVideos = debounce(
       })
       .then(
         (response: YoutubeResponse) => {
-          setVideos(filterVideos(response.result.items));
+          setVideos(response.result.items);
           setIsLoading(false);
         },
         (reason: any) => {
@@ -114,7 +110,6 @@ export {
   random,
   debounce,
   fetchVideos,
-  filterVideos,
   fetchRelatedVideos,
   fetchVideoInfo,
   truncateString,

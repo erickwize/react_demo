@@ -5,7 +5,7 @@ import { storage } from '../../utils/storage';
 
 import { Context, IProps } from './Auth.provider.typed';
 
-const AuthContext = React.createContext<Context>({
+export const AuthContext = React.createContext<Context>({
   login: () => { },
   logout: () => { },
   authenticated: false,

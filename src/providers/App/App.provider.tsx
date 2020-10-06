@@ -4,7 +4,7 @@ import { Video, VideoItem } from '../../utils/types';
 
 import { Context, IProps } from './App.provider.typed';
 
-const AppContext = createContext<Context>({
+export const AppContext = createContext<Context>({
   setSearch: (search) => console.log(search),
   search: '',
   setVideos: (videos) => videos.forEach((video) => console.log(video)),

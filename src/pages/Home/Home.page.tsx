@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import CardVideo from '../../components/CardVideo';
 import { useApp } from '../../providers/App';
 import { GridWrapper } from '../../components/GridWrapper';
-import { SkeletonCard } from '../../components/CardVideo/CardVideo.styled';
+import { SkeletonCard } from '../../components/CardVideo/CardVideo.component.styled';
 
 function HomePage() {
   const { videos, favoriteVideos, isLoadingVideos } = useApp();

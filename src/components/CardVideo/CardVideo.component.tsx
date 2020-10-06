@@ -9,8 +9,8 @@ import { useHistory } from 'react-router-dom';
 
 import image from '../../resources/image.jpg';
 
-import { Card } from './CardVideo.styled';
-import { IProps } from './CardVideo.typed';
+import { Card } from './CardVideo.component.styled';
+import { IProps } from './CardVideo.component.typed';
 import { useApp } from '../../providers/App';
 import { useAuth } from '../../providers/Auth';
 
